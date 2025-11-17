@@ -1,0 +1,21 @@
+#app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+
+table, th, td{
+    border: 1px solid black;
+    padding: 10px;
+}
+th {
+    background-color: rgb(80, 208, 218);
+}
+
+table {
+    /* no space between cell */
+    border-collapse: collapse;
+}

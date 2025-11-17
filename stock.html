@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/stock.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <title>Informasi Bahan Ajar</title>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="upbjj_filter">
+                <select v-model="upbjj_filter">
+                    <option v-for="value of upbjjList">{{value}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kode</th>
+                        <th>Judul</th>
+                        <th>Kategori</th>
+                        <th>UPBJJ</th>
+                        <th>Lokasi Rak</th>
+                        <th>Harga</th>
+                        <th>Total</th>
+                        <th>Safety</th>
+                        <th>Catatan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  v-for="value of viewStock">
+                        <td>{{value.kode}}</td>
+                        <td>{{value.judul}}</td>
+                        <td>{{value.kategori}}</td>
+                        <td>{{value.upbjj}}</td>
+                        <td>{{value.lokasiRak}}</td>
+                        <td>{{value.harga}}</td>
+                        <td>{{value.qty}}</td>
+                        <td>{{value.safety}}</td>
+                        <td v-html="value.catatanHTML"></td>
+                    </tr>
+                    <tr v-if="viewStock.length === 0">
+                        <td colspan="9" style="text-align:center; font-weight:bold;">Empty</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/vue.min.js"></script>
+    <script src="js/stock-app.js"></script>
+    <script src="/js/navbar.js"></script>
+</body>
+</html>

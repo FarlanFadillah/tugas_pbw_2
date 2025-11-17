@@ -2,27 +2,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/navbar.css">
+    <title>Home Page</title>
 </head>
 <body>
-    <div id="app">
-        {{message}}
-        <input type="text" v-model="text">
-        <h1>{{text}}</h1>
-
-
-        <input list="abc" v-model="text">
-
-        <datalist id="abc">
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-            <option value="D">D</option>
-        </datalist>
+    
+    <div class="container">
+        <h2>Dashboard Aplikasi SITTA</h2>
+        <h3>Selamat <span class="daytime"></span></h3>
     </div>
 
-    <script src="/js/vue.min.js"></script>
-    <script src="/js/stock-app.js"></script>
-
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/navbar.js"></script>
 </body>
 </html>
