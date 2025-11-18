@@ -57,40 +57,56 @@ var app = new Vue({
             catatanHTML: "Stok <i>menipis</i>, prioritaskan reorder"
             }
         ],
-        stock_filter : [],
-        upbjj_filter : '',
         qty_filter : false,
         sort_by : {
             column : '',
             order : 'desc',
             type : 'nan'
-        }
+        },
+        filter_key : '',
+        filter_value : '',
+        filters : [
+            {
+                key : 'upbjj',
+                val : 'jakarta'
+            }
+        ]
     },
     computed : {
         viewStock(){
             let result = this.stok;
-            if(this.stock_filter.includes('upbjj')){
-                result = result.filter(data => data.upbjj === this.upbjj_filter);
+            const sort = this.sort_by;
+
+            for(value of this.filters){
+                result = result.filter(data => data[value.key].toLowerCase() === value.val.toLowerCase())
             }
+
             if(this.qty_filter)
             {
                 result = result.filter(data=> data.qty < data.safety)
             }
-            const sort = this.sort_by;
+
             if(sort.column){
                 if(sort.type === 'nan') result = result.toSorted((a, b) => a[sort.column].localeCompare(b[sort.column]));
                 else if(sort.type === 'num') result = result.toSorted((a, b) => a[sort.column] - b[sort.column]);
-
                 if(this.sort_by.order === 'desc') result = result.toReversed();
             }
+
             return result
+        },
+        currentFilterList(){
+            switch (this.filter_key) {
+                case 'upbjj':
+                    return this.upbjjList;
+                case 'kategori':
+                    return this.kategoriList;
+                default:
+                    return [];
+            }
         }
     },
     watch : {
-        upbjj_filter(){
-            if(this.upbjj_filter) this.stock_filter.push('upbjj')
-            else this.stock_filter = this.stock_filter.filter(data=> data !== 'upbjj') 
-        }
+        
     },
     methods : {
         sortby(type, name){
@@ -102,8 +118,45 @@ var app = new Vue({
             }
         },
         resetFilter(){
-            this.stock_filter = [];
+            this.filters = [];
             this.sort_by.column = '';
+        },
+        addFilter(){
+            if(!this.filter_key || !this.filter_value) return;
+            const obj = arrObjIncludes(this.filters, 'key', this.filter_key);
+            if(!obj.found)
+            {
+                this.filters.push({
+                    key : this.filter_key,
+                    val : this.filter_value
+                })
+            }
+            else {
+                this.filters[obj.index].val = this.filter_value
+            }
+
+            this.filter_key = '';
+            this.filter_value = '';
+        },
+        rmFilter(key){
+            this.filters = this.filters.filter(data=> data.key !== key);
         }
     }
 })
+
+
+
+function arrObjIncludes(arr, key, val){
+    for(index in arr){
+        if(arr[index][key].toLowerCase() === val.toLowerCase()){
+            return {
+                index,
+                found : true
+            }
+        }
+    }
+    return {
+        index : null,
+        found : false
+    }
+}

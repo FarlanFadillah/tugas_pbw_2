@@ -13,19 +13,34 @@
                 <div class="reset-filter">
                     <button @click="resetFilter">Reset</button>
                 </div>
-                <div class="upbjj_filter">
-                    <select v-model="upbjj_filter">
-                        <option value="" selected>Semua</option>
-                        <option v-for="value of upbjjList">{{value}}</option>
+                <div class="filter">
+                    <input list="list" v-model="filter_value" placeholder="Type filter here...">
+                    <datalist id="list">
+                        <option v-for="value of currentFilterList" :value="value">{{value}}</option>
+                    </datalist>
+                    
+                    <input @click="addFilter" type="button" name="add-filter" value="Add">
+                    <select name="" id="" v-model="filter_key">
+                        <option value="" selected>Choose Filter</option>
+                        <option value="upbjj">UPBJJ</option>
+                        <option value="kategori">KATEGORI</option>
                     </select>
                 </div>
-                <div class="qty_filter">
-                    <label for="stok_status">Low Stock</label>
-                    <input type="checkbox" v-model="qty_filter" name="stok_status" id="">
+                
+            </div>
+            <div class="filter-list" v-show="filters.length > 0">
+                <h3>Current filter list</h3>
+                <div v-for="value of filters" class="filter-item">
+                    <div class="info">
+                        {{value.key}} {{value.val}}
+                    </div>
+                    <div class="cls-btn">
+                        <p @click="rmFilter(value.key)" class="clickable">x</p>
+                    </div>
                 </div>
             </div>
             <table>
-                <thead>
+                <thead >
                     <tr>
                         <th>Kode</th>
                         <th @click="sortby('nan', 'judul')" class="clickable">Judul <span class="sorting-icon"></span></th>

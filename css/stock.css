@@ -23,6 +23,7 @@ th {
 table {
     /* no space between cell */
     border-collapse: collapse;
+    width: 1221px;
 }
 
 
@@ -47,10 +48,61 @@ table {
 /* Filter Section */
 
 .filters{
-    padding: 10px;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    align-items: start;
+    padding: 5px;
+}
+
+.reset-filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.filter{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+.filter input[type=text]{
+    padding: 5px;
     border: 1px solid black;
+    border-radius: 5px 0 0 5px;
+}
+
+.filter select {
+    padding: 5px;
+    border-radius: 0 5px 5px 0;
+}
+
+.filter-list {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.filter-item{
+    max-width: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 2px;
+    border: 1px solid lightgray;
+    border-radius: 50px;
+    background-color: rgb(210, 233, 252);
+}
+
+.filter-item .cls-btn{
+    display: flex;
+}
+
+.filter-item .cls-btn p {
+    background-color: red;
+    max-height: fit-content;
+    padding: 3px;
+    margin: 5px;
+    border-radius: 50px;
+    background-color: rgb(200, 213, 224);
 }
