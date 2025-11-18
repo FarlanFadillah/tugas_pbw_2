@@ -6,6 +6,11 @@
     padding: 10px;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
 table, th, td{
     border: 1px solid black;
@@ -18,4 +23,34 @@ th {
 table {
     /* no space between cell */
     border-collapse: collapse;
+}
+
+
+/* Status Column */
+.safe {
+    color : green;
+}
+.warning {
+    color: orange;
+}
+.danger {
+    color: red;
+}
+
+/* Column event */
+.clickable:hover {
+    cursor: pointer;
+}
+
+
+
+/* Filter Section */
+
+.filters{
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: start;
+    border: 1px solid black;
 }

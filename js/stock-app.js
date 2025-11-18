@@ -57,24 +57,53 @@ var app = new Vue({
             catatanHTML: "Stok <i>menipis</i>, prioritaskan reorder"
             }
         ],
-        stock_filter : 'none',
-        upbjj_filter : ''
+        stock_filter : [],
+        upbjj_filter : '',
+        qty_filter : false,
+        sort_by : {
+            column : '',
+            order : 'desc',
+            type : 'nan'
+        }
     },
     computed : {
         viewStock(){
-            if(this.stock_filter === 'none') return this.stok;
-            if(this.stock_filter === 'upbjj'){
-                const result = this.stok.filter(data => data.upbjj === this.upbjj_filter);
-                console.log('this is the result', result)
-                return result;
+            let result = this.stok;
+            if(this.stock_filter.includes('upbjj')){
+                result = result.filter(data => data.upbjj === this.upbjj_filter);
             }
+            if(this.qty_filter)
+            {
+                result = result.filter(data=> data.qty < data.safety)
+            }
+            const sort = this.sort_by;
+            if(sort.column){
+                if(sort.type === 'nan') result = result.toSorted((a, b) => a[sort.column].localeCompare(b[sort.column]));
+                else if(sort.type === 'num') result = result.toSorted((a, b) => a[sort.column] - b[sort.column]);
+
+                if(this.sort_by.order === 'desc') result = result.toReversed();
+            }
+            return result
         }
     },
     watch : {
         upbjj_filter(){
-            console.log(this.upbjj_filter)
-            if(this.upbjj_filter) this.stock_filter = 'upbjj';
-            else this.stock_filter = 'none';
+            if(this.upbjj_filter) this.stock_filter.push('upbjj')
+            else this.stock_filter = this.stock_filter.filter(data=> data !== 'upbjj') 
+        }
+    },
+    methods : {
+        sortby(type, name){
+            const prev_order = this.sort_by.order;
+            this.sort_by = {
+                column : name,
+                order : prev_order === 'desc' ? 'asc' : 'desc',
+                type : type
+            }
+        },
+        resetFilter(){
+            this.stock_filter = [];
+            this.sort_by.column = '';
         }
     }
 })

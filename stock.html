@@ -9,24 +9,32 @@
 <body>
     <div id="app">
         <div class="container">
-            <div class="upbjj_filter">
-                <select v-model="upbjj_filter">
-                    <option v-for="value of upbjjList">{{value}}</option>
-                </select>
+            <div class="filters">
+                <div class="reset-filter">
+                    <button @click="resetFilter">Reset</button>
+                </div>
+                <div class="upbjj_filter">
+                    <select v-model="upbjj_filter">
+                        <option value="" selected>Semua</option>
+                        <option v-for="value of upbjjList">{{value}}</option>
+                    </select>
+                </div>
+                <div class="qty_filter">
+                    <label for="stok_status">Low Stock</label>
+                    <input type="checkbox" v-model="qty_filter" name="stok_status" id="">
+                </div>
             </div>
-        </div>
-        <div class="container">
             <table>
                 <thead>
                     <tr>
                         <th>Kode</th>
-                        <th>Judul</th>
+                        <th @click="sortby('nan', 'judul')" class="clickable">Judul <span class="sorting-icon"></span></th>
                         <th>Kategori</th>
                         <th>UPBJJ</th>
                         <th>Lokasi Rak</th>
-                        <th>Harga</th>
-                        <th>Total</th>
-                        <th>Safety</th>
+                        <th @click="sortby('num', 'harga')" class="clickable">Harga <span class="sorting-icon"></span></th>
+                        <th @click="sortby('num', 'qty')" class="clickable">Total <span class="sorting-icon"></span></th>
+                        <th>Status</th>
                         <th>Catatan</th>
                     </tr>
                 </thead>
@@ -37,9 +45,13 @@
                         <td>{{value.kategori}}</td>
                         <td>{{value.upbjj}}</td>
                         <td>{{value.lokasiRak}}</td>
-                        <td>{{value.harga}}</td>
-                        <td>{{value.qty}}</td>
-                        <td>{{value.safety}}</td>
+                        <td>Rp.{{value.harga.toLocaleString()}}</td>
+                        <td><input type="number" v-model="value.qty"></td>
+                        <td>
+                            <p v-if="value.qty >= value.safety" class="safe">Aman</p>
+                            <p v-else-if="value.qty < value.safety && value.qty > 0" class="warning">Menipis</p>
+                            <p v-else class="danger">Kosong</p>
+                        </td>
                         <td v-html="value.catatanHTML"></td>
                     </tr>
                     <tr v-if="viewStock.length === 0">
