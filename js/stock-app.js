@@ -65,12 +65,23 @@ var app = new Vue({
         },
         filter_key : '',
         filter_value : '',
-        filters : [
-            {
-                key : 'upbjj',
-                val : 'jakarta'
-            }
-        ]
+        filters : [],
+        form : {
+            kode: "",
+            judul: "",
+            kategori: "",
+            upbjj: "",
+            lokasiRak: "",
+            harga: null,
+            qty: null,
+            safety: null,
+            catatanHTML: ""
+        },
+        form_message : {
+            type : 'danger',
+            text : 'Testing'
+        },
+        show_message : false
     },
     computed : {
         viewStock(){
@@ -100,13 +111,34 @@ var app = new Vue({
                     return this.upbjjList;
                 case 'kategori':
                     return this.kategoriList;
+                case 'lokasiRak':
+                    return this.kategoriList;
                 default:
                     return [];
             }
         }
     },
     watch : {
-        
+        form : {
+            handler(newVal){
+                if(!this.kategoriList.map(item => item.toLowerCase()).includes(newVal.kategori.toLowerCase())){
+                    this.form_message = {
+                        type : 'warning',
+                        text : 'Kategori tidak valid'
+                    }
+                    return this.show_message = true
+                }if(!this.upbjjList.map(item => item.toLowerCase()).includes(newVal.upbjj.toLowerCase())){
+                    this.form_message = {
+                        type : 'warning',
+                        text : 'UPBJJ tidak valid'
+                    }
+                    return this.show_message = true
+                }else {
+                    return this.show_message = false;
+                }
+            },
+            deep : true
+        }
     },
     methods : {
         sortby(type, name){
@@ -140,6 +172,37 @@ var app = new Vue({
         },
         rmFilter(key){
             this.filters = this.filters.filter(data=> data.key !== key);
+        },
+        submitForm(e){
+            e.preventDefault();
+            const res = arrObjIncludes(this.stok, 'kode', this.form.kode);
+            console.log('check if object contain spesific value', res);
+            if(!res.found) this.stok.push(this.form);
+            else {
+                this.form_message = {
+                        type : 'warning',
+                        text : 'Buku dengan kode yang sama telah ada.'
+                    }
+                return this.show_message = true
+            }
+
+            console.log(this.form);
+            
+            this.form = {
+                kode: "",
+                judul: "",
+                kategori: "",
+                upbjj: "",
+                lokasiRak: "",
+                harga: null,
+                qty: null,
+                safety: null,
+                catatanHTML: ""
+            }
+            closeFormModal();
+        },
+        removeItem(kode){
+            this.stok = this.stok.filter(data=> data.kode !== kode);
         }
     }
 })
@@ -148,6 +211,8 @@ var app = new Vue({
 
 function arrObjIncludes(arr, key, val){
     for(index in arr){
+        console.log(arr[index][key].toLowerCase());
+        console.log(val.toLowerCase());
         if(arr[index][key].toLowerCase() === val.toLowerCase()){
             return {
                 index,

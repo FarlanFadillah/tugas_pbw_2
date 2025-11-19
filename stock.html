@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/stock.css">
     <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/book-form-modal.css">
     <title>Informasi Bahan Ajar</title>
 </head>
 <body>
@@ -11,25 +12,29 @@
         <div class="container">
             <div class="filters">
                 <div class="reset-filter">
-                    <button @click="resetFilter">Reset</button>
+                    <button @click="resetFilter" class="btn">Reset</button>
                 </div>
                 <div class="filter">
-                    <input list="list" v-model="filter_value" placeholder="Type filter here...">
+                    <input list="list" id="input_filter" v-model="filter_value" placeholder="Type filter here...">
                     <datalist id="list">
                         <option v-for="value of currentFilterList" :value="value">{{value}}</option>
                     </datalist>
                     
-                    <input @click="addFilter" type="button" name="add-filter" value="Add">
-                    <select name="" id="" v-model="filter_key">
+                    <input @click="addFilter" type="button" name="add-filter" value="Add" class="btn no-rad">
+                    <select name="" id="" v-model="filter_key" class="clickable">
                         <option value="" selected>Choose Filter</option>
                         <option value="upbjj">UPBJJ</option>
                         <option value="kategori">KATEGORI</option>
                     </select>
+                    
                 </div>
-                
+                <div class="checkbox-group">
+                    <input type="checkbox" name="low_stock" v-model="qty_filter">
+                    <label for="low_stock" id="cb_label">Low On Stock</label>
+                </div>
             </div>
-            <div class="filter-list" v-show="filters.length > 0">
-                <h3>Current filter list</h3>
+            <h3 v-show="filters.length > 0">Current filter list</h3>
+            <div class="filter-list">
                 <div v-for="value of filters" class="filter-item">
                     <div class="info">
                         {{value.key}} {{value.val}}
@@ -51,6 +56,7 @@
                         <th @click="sortby('num', 'qty')" class="clickable">Total <span class="sorting-icon"></span></th>
                         <th>Status</th>
                         <th>Catatan</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -63,22 +69,99 @@
                         <td>Rp.{{value.harga.toLocaleString()}}</td>
                         <td><input type="number" v-model="value.qty"></td>
                         <td>
-                            <p v-if="value.qty >= value.safety" class="safe">Aman</p>
-                            <p v-else-if="value.qty < value.safety && value.qty > 0" class="warning">Menipis</p>
+                            <p v-if="Number(value.qty) >= Number(value.safety)" class="safe">Aman</p>
+                            <p v-else-if="Number(value.qty) < Number(value.safety) && Number(value.qty) > 0" class="warning">Menipis</p>
                             <p v-else class="danger">Kosong</p>
                         </td>
                         <td v-html="value.catatanHTML"></td>
+                        <td><a @click="removeItem(value.kode)" class="btn btn-danger clickable">Remove</a></td>
                     </tr>
                     <tr v-if="viewStock.length === 0">
                         <td colspan="9" style="text-align:center; font-weight:bold;">Empty</td>
                     </tr>
                 </tbody>
             </table>
+            <a onclick="openFormModal()" class="btn">Add Stock</a>
+        </div>
+
+        <div class="container form-modal">
+            <div class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Book Form</h3>
+                    </div>
+                    <div class="modal-body">
+                        <form id="book-form" v-on:submit.prevent="submitForm" v-model="form">
+                            <div class="input-group">
+                                <label for="kode">Kode Buku</label>
+                                <input required v-model="form.kode" type="text" name="kode">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="judul">Judul</label>
+                                <input required v-model="form.judul" type="text" name="judul">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="kategori">Kategori</label>
+                                <input required v-model="form.kategori" list="kategori_list" name="kategori">
+
+                                <datalist id="kategori_list">
+                                    <option v-for="value in kategoriList" :value="value">{{value}}</option>
+                                </datalist>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="upbjj">UPBJJ</label>
+                                <input required v-model="form.upbjj" list="upbjj_list" name="upbjj">
+
+                                <datalist id="upbjj_list">
+                                    <option v-for="value in upbjjList" :value="value">{{value}}</option>
+                                </datalist>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="lokasi-rak">Lokasi Rak</label>
+                                <input required v-model="form.lokasiRak" type="text" name="lokasi-rak">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="harga">Harga</label>
+                                <input required v-model="form.harga" type="number" name="harga">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="qty">Jumlah</label>
+                                <input required v-model="form.qty" type="number" name="qty">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="safety">Safety</label>
+                                <input required v-model="form.safety" type="number" name="safety">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="catatan">Catatan</label>
+                                <input v-model="form.catatanHTML" type="text" name="catatan">
+                            </div>
+
+                        </form>
+                        <div v-if="show_message" :class="form_message.type" v-text="form_message.text">{{form_message}}</div>
+                    </div>
+                    <div class="modal-footer">
+                        <span class="close-modal-btn">close</span>
+                        <input type="submit" form="book-form" class="add-modal-btn" value="add">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    
 
     <script src="js/vue.min.js"></script>
     <script src="js/stock-app.js"></script>
     <script src="/js/navbar.js"></script>
+    <script src="/js/book-form-modal.js"></script>
 </body>
 </html>
