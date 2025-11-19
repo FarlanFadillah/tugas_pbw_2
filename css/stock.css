@@ -69,14 +69,20 @@ table {
     border: 1px solid black;
     border-radius: 5px;
 }
+
 .filter #input_filter{
     padding: 5px;
     border: none;
 }
 
+.filter #input_filter:focus{
+    border: none;
+    box-shadow: 0 0 2px 2px ;
+}
+
 .filter select {
     padding: 5px;
-    border-radius: 0 5px 5px 0;
+    border: none;
 }
 
 .filter-list {
@@ -130,6 +136,7 @@ table {
     padding: 5px;
     border: 0px;
     border-radius: 5px;
+    transition: ease-in-out 200ms;
 }
 
 .no-rad {

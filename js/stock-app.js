@@ -57,6 +57,7 @@ var app = new Vue({
             catatanHTML: "Stok <i>menipis</i>, prioritaskan reorder"
             }
         ],
+        view_stok : [],
         qty_filter : false,
         sort_by : {
             column : '',
@@ -85,25 +86,25 @@ var app = new Vue({
     },
     computed : {
         viewStock(){
-            let result = this.stok;
+            if(this.view_stok.length <= 0) this.view_stok = this.stok;
             const sort = this.sort_by;
 
             for(value of this.filters){
-                result = result.filter(data => data[value.key].toLowerCase() === value.val.toLowerCase())
+                this.view_stok = this.view_stok.filter(data => data[value.key].toLowerCase() === value.val.toLowerCase())
             }
 
             if(this.qty_filter)
             {
-                result = result.filter(data=> data.qty < data.safety)
+                this.view_stok = this.view_stok.filter(data=> data.qty < data.safety)
             }
 
             if(sort.column){
-                if(sort.type === 'nan') result = result.toSorted((a, b) => a[sort.column].localeCompare(b[sort.column]));
-                else if(sort.type === 'num') result = result.toSorted((a, b) => a[sort.column] - b[sort.column]);
-                if(this.sort_by.order === 'desc') result = result.toReversed();
+                if(sort.type === 'nan') this.view_stok = this.view_stok.toSorted((a, b) => a[sort.column].localeCompare(b[sort.column]));
+                else if(sort.type === 'num') this.view_stok = this.view_stok.toSorted((a, b) => a[sort.column] - b[sort.column]);
+                if(this.sort_by.order === 'desc') this.view_stok = this.view_stok.toReversed();
             }
 
-            return result
+            return this.view_stok;
         },
         currentFilterList(){
             switch (this.filter_key) {
@@ -138,6 +139,9 @@ var app = new Vue({
                 }
             },
             deep : true
+        },
+        qty_filter(newVal){
+            if(!newVal) this.view_stok = [];
         }
     },
     methods : {
@@ -152,6 +156,7 @@ var app = new Vue({
         resetFilter(){
             this.filters = [];
             this.sort_by.column = '';
+            this.view_stok = [];
         },
         addFilter(){
             if(!this.filter_key || !this.filter_value) return;
@@ -172,6 +177,7 @@ var app = new Vue({
         },
         rmFilter(key){
             this.filters = this.filters.filter(data=> data.key !== key);
+            this.view_stok = [];
         },
         submitForm(e){
             e.preventDefault();
@@ -199,10 +205,12 @@ var app = new Vue({
                 safety: null,
                 catatanHTML: ""
             }
+            this.view_stok = [];
             closeFormModal();
         },
         removeItem(kode){
             this.stok = this.stok.filter(data=> data.kode !== kode);
+            this.view_stok = [];
         }
     }
 })

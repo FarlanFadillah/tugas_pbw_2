@@ -1,0 +1,157 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #ffffff;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.container > div {
+  /* horizontal offset, vertical offset, blur value, color */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Search box */
+.search-box label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input-group .btn {
+  background: #f2c94c;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.input-group .btn:hover {
+  background: #e0b944;
+}
+
+/* Info card */
+.info-card {
+  background: #254ede;
+  color: #fff;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-top: 25px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.info-card h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.info-card h4 {
+  margin: 4px 0 0;
+  font-weight: 400;
+}
+
+.info-card .info-date {
+  text-align: right;
+}
+
+.status {
+  margin: 15px 0 5px;
+}
+
+.ekspedisi {
+  font-size: 14px;
+  color: #d0d4f6;
+  margin: 0;
+}
+
+/* Tracking section */
+.tracking {
+  margin-top: 30px;
+}
+
+.tracking h3 {
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.timeline {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  border-left: 2px solid #ddd;
+}
+
+.timeline li {
+  position: relative;
+  margin-left: 20px;
+  padding-bottom: 20px;
+}
+
+.timeline li:last-child {
+  padding-bottom: 0;
+}
+
+.dot {
+  position: absolute;
+  left: -11px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  background: #f2c94c;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 0 2px #f2c94c;
+}
+
+.content {
+  padding-left: 10px;
+}
+
+.content p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.content small {
+  color: #777;
+  display: block;
+  margin-top: 4px;
+}
+
+.content span {
+  display: block;
+  color: #999;
+  font-size: 13px;
+  margin-top: 6px;
+}
