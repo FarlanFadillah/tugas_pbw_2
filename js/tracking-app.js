@@ -57,20 +57,70 @@ var app = new Vue({
             ]
         }
       },
+      message : '',
+      current_seq : 4,
       nomor_do : '',
-      current_order : {}
-    },
-    computed : {
+      current_order : {},
+      form : {
         
+      },
+      show_message : false,
+      generatedDO : 'asdfasd001'
+    },
+    watch : {
     },
     methods : {
+        showMessage(text){
+          this.$refs.message_text.style.opacity = 1;
+          this.$refs.loading_circle.style.display = 'none';
+
+          this.message = text;
+        },
         searchDoNumber(){
+          this.$refs.info_card.style.opacity = 0;
+          this.$refs.message_text.style.opacity = 0;
+          this.$refs.tracking_card.style.opacity = 0;
+          if(!this.nomor_do)
+          {
+            return this.showMessage('Number DO is undefined')
+          }
+
+          setTimeout(()=>{
+            
             const result = this.tracking[this.nomor_do];
             if(!result){
                 // TODO open modal
-                console.error('order not found')
+                return this.showMessage('Order not found')
             }
             this.current_order = result;
+            this.$refs.info_card.style.opacity = 1;
+            this.$refs.tracking_card.style.opacity = 1;
+            this.$refs.loading_circle.style.display = 'none';
+          }, 400);
+          this.$refs.loading_circle.style.display = 'block';
+            
+        },
+        generateDO(){
+          const date = new Date();
+          this.generatedDO = 'DO' + date.getFullYear() + '-' + String(this.current_seq).padStart(4, '0');
+        },
+        submitForm(){
+          const date = new Date();
+          this.form.perjalanan = [
+                { waktu: date.toISOString(), keterangan: "Pesanan Dibuat"},
+                { waktu: date.toISOString(), keterangan: "Pengirim telah mengatur pengiriman. Menunggu Pesanan diserahkan ke pihak jasa kirim"},
+          ]
+          this.form.paket = this.form.paket.nama;
+          this.tracking[this.generatedDO] = this.form;
+          this.resetForm();
+
+          this.current_seq++;
+          closeFormModal();
+        },
+        resetForm(){
+          this.form = {
+
+          }
         }
     }
 })

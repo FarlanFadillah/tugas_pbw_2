@@ -14,7 +14,7 @@ container.innerHTML = `
             </div>
         </li>
         <li><a href="">Histori Transaksi Bahan Ajar</a></li>
-        <li><a href="./login.html">Logout</a></li>
+        <!--<li><a href="./login.html">Logout</a></li>-->
     </ul>
 `
 

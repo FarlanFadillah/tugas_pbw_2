@@ -87,7 +87,7 @@ var app = new Vue({
 
             if(this.qty_filter)
             {
-                this.view_stok = this.view_stok.filter(data=> data.qty < data.safety)
+                this.view_stok = this.view_stok.filter(data=> Number(data.qty) < Number(data.safety))
             }
 
             if(sort.column){
@@ -134,6 +134,12 @@ var app = new Vue({
         },
         qty_filter(newVal){
             if(!newVal) this.view_stok = [];
+        },
+        stok : {
+            handler(newVal){
+                console.log('stok change')
+            },
+            deep : true
         }
     },
     methods : {
@@ -184,8 +190,6 @@ var app = new Vue({
                 return this.show_message = true
             }
 
-            console.log(this.form);
-            
             this.form = {
                 kode: "",
                 judul: "",

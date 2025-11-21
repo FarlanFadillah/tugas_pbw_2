@@ -4,7 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/stock.css">
     <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/book-form-modal.css">
+    <link rel="stylesheet" href="./css/my_style.css">
+    <link rel="stylesheet" href="./css/modal.css">
     <title>Informasi Bahan Ajar</title>
 </head>
 <body>
@@ -12,16 +13,16 @@
         <div class="container">
             <div class="filters">
                 <div class="reset-filter">
-                    <button @click="resetFilter" class="btn">Reset</button>
+                    <button @click="resetFilter" class="btn btn-gray">Reset</button>
                 </div>
-                <div class="filter">
+                <div class="input-group filter">
                     <input list="list" id="input_filter" v-model="filter_value" placeholder="Type filter here...">
                     <datalist id="list">
                         <option v-for="value of currentFilterList" :value="value">{{value}}</option>
                     </datalist>
                     
-                    <input @click="addFilter" type="button" name="add-filter" value="Add" class="btn no-rad">
-                    <select name="" id="" v-model="filter_key" class="clickable">
+                    <button @click="addFilter" class="btn btn-green">Add</button>
+                    <select name="" id="" v-model="filter_key" class="btn">
                         <option value="" selected>Choose Filter</option>
                         <option value="upbjj">UPBJJ</option>
                         <option value="kategori">KATEGORI</option>
@@ -39,13 +40,13 @@
                     <div class="info">
                         {{value.key}} {{value.val}}
                     </div>
-                    <div class="cls-btn">
-                        <p @click="rmFilter(value.key)" class="clickable">x</p>
-                    </div>
+                    <button @click="rmFilter(value.key)" class="x-btn">
+                        x
+                    </button>
                 </div>
             </div>
             <table>
-                <thead >
+                <thead class="bg-blue">
                     <tr>
                         <th>Kode</th>
                         <th @click="sortby('nan', 'judul')" class="clickable">Judul <span class="sorting-icon"></span></th>
@@ -81,17 +82,17 @@
                     </tr>
                 </tbody>
             </table>
-            <a onclick="openFormModal()" class="btn">Add Stock</a>
+            <button onclick="openFormModal()" class="btn no-margin btn-blue">Add Stock</button>
         </div>
 
         <div class="container form-modal">
-            <div class="modal">
+            <div class="modal fit-content">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h3>Book Form</h3>
                     </div>
                     <div class="modal-body">
-                        <form id="book-form" v-on:submit.prevent="submitForm" v-model="form">
+                        <form id="book-form" class="grid" v-on:submit.prevent="submitForm" v-model="form">
                             <div class="input-group">
                                 <label for="kode">Kode Buku</label>
                                 <input required v-model="form.kode" type="text" name="kode">
@@ -149,8 +150,8 @@
                         <div v-if="show_message" :class="form_message.type" v-text="form_message.text">{{form_message}}</div>
                     </div>
                     <div class="modal-footer">
-                        <span class="close-modal-btn">close</span>
-                        <input type="submit" form="book-form" class="add-modal-btn" value="add">
+                        <button class="btn btn-gray close-modal-btn">close</button>
+                        <input type="submit" form="book-form" class="btn btn-green add-modal-btn" value="add">
                     </div>
                 </div>
             </div>
