@@ -67,8 +67,6 @@ var app = new Vue({
       show_message : false,
       generatedDO : 'asdfasd001'
     },
-    watch : {
-    },
     methods : {
         showMessage(text){
           this.$refs.message_text.style.opacity = 1;

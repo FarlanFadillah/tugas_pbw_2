@@ -49,32 +49,15 @@ var app = new Vue({
             catatanHTML: "Stok <i>menipis</i>, prioritaskan reorder"
             }
         ],
-        view_stok : [],
-        qty_filter : false,
-        sort_by : {
-            column : '',
-            order : 'desc',
-            type : 'nan'
-        },
-        filter_key : '',
-        filter_value : '',
-        filters : [],
-        form : {
-            kode: "",
-            judul: "",
-            kategori: "",
-            upbjj: "",
-            lokasiRak: "",
-            harga: null,
-            qty: null,
-            safety: null,
-            catatanHTML: ""
-        },
-        form_message : {
-            type : '',
-            text : ''
-        },
-        show_message : false
+        view_stok : [],         // stok yang ditampilkan di table
+        qty_filter : false,     // filter untuk stok yang menipis atau kosong
+        sort_by : {},           // config sorting
+        filter_key : '',        // nama kolom yang akan disorting
+        filter_value : '',      // value yang akan disorting
+        filters : [],           // daftar filter
+        form : {},              // objek form buku
+        form_message : {},      // config message
+        show_message : false    // kondisi untuk kapan menampilkan message
     },
     computed : {
         viewStock(){
@@ -103,8 +86,6 @@ var app = new Vue({
                 case 'upbjj':
                     return this.upbjjList;
                 case 'kategori':
-                    return this.kategoriList;
-                case 'lokasiRak':
                     return this.kategoriList;
                 default:
                     return [];
@@ -190,17 +171,7 @@ var app = new Vue({
                 return this.show_message = true
             }
 
-            this.form = {
-                kode: "",
-                judul: "",
-                kategori: "",
-                upbjj: "",
-                lokasiRak: "",
-                harga: null,
-                qty: null,
-                safety: null,
-                catatanHTML: ""
-            }
+            this.form = {}
             this.view_stok = [];
             closeFormModal();
         },

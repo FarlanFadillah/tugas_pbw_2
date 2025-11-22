@@ -49,12 +49,12 @@
                 <thead class="bg-blue">
                     <tr>
                         <th>Kode</th>
-                        <th @click="sortby('nan', 'judul')" class="clickable">Judul <span class="sorting-icon"></span></th>
+                        <th @click="sortby('nan', 'judul')" class="pointer">Judul <span class="sorting-icon"></span></th>
                         <th>Kategori</th>
                         <th>UPBJJ</th>
                         <th>Lokasi Rak</th>
-                        <th @click="sortby('num', 'harga')" class="clickable">Harga <span class="sorting-icon"></span></th>
-                        <th @click="sortby('num', 'qty')" class="clickable">Total <span class="sorting-icon"></span></th>
+                        <th @click="sortby('num', 'harga')" class="pointer">Harga <span class="sorting-icon"></span></th>
+                        <th @click="sortby('num', 'qty')" class="pointer">Total <span class="sorting-icon"></span></th>
                         <th>Status</th>
                         <th>Catatan</th>
                         <th>Actions</th>
@@ -147,7 +147,7 @@
                             </div>
 
                         </form>
-                        <div v-if="show_message" :class="form_message.type" v-text="form_message.text">{{form_message}}</div>
+                        <div v-if="show_message" :class="form_message.type" v-text="form_message.text"></div>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-gray close-modal-btn">close</button>
