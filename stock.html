@@ -75,10 +75,10 @@
                             <p v-else class="danger">Kosong</p>
                         </td>
                         <td v-html="value.catatanHTML"></td>
-                        <td><a @click="removeItem(value.kode)" class="btn btn-danger clickable">Remove</a></td>
+                        <td><a @click="removeItem(value.kode)" class="btn btn-red clickable">Remove</a></td>
                     </tr>
                     <tr v-if="viewStock.length === 0">
-                        <td colspan="9" style="text-align:center; font-weight:bold;">Empty</td>
+                        <td colspan="10" style="text-align:center; font-weight:bold;">Empty</td>
                     </tr>
                 </tbody>
             </table>
